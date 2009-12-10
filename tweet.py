@@ -57,6 +57,7 @@ class CLITweet:
 			print e.read()
 
 	def mentions(self):
+		# Gets latest @replies.
 		self.setup()
 		if len(sys.argv) == 3:
 			number_of_tweets = str(sys.argv[2])
@@ -96,6 +97,7 @@ class CLITweet:
 
 			
 	def print_tweets(self, tweets):
+		# Prints a group of tweets fetched from another function.
 		tweets = json.loads(tweets)
 		for tweet in tweets:
 			print tweet['user']['screen_name'], ': \t', tweet['text']
@@ -107,6 +109,7 @@ class CLITweet:
 		print "Usage:"
 		print "\t tweet <tweet> - Sends a tweet"
 		print "\t friends [<num>] - Gets latest <num> tweets from friends"
+		print "\t mentions [<num>] - Gets latest <num> @replies
 		print "\t help - Prints help information"
 		print
 

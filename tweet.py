@@ -56,6 +56,24 @@ class CLITweet:
 			print e.code
 			print e.read()
 
+	def mentions(self):
+		self.setup()
+		if len(sys.argv) == 3:
+			number_of_tweets = str(sys.argv[2])
+		else:
+			number_of_tweets = str(10)
+		
+		
+		try:
+			data = urllib2.urlopen('http://twitter.com/statuses/mentions.json?count=' \
+			+ number_of_tweets).read()
+
+		except urllib2.HTTPError, e:
+			print e.code
+			print e.read()
+			sys.exit(1)
+
+		self.print_tweets(data)
 
 	def friends(self):
 		# Get latest tweets from friends
@@ -74,14 +92,14 @@ class CLITweet:
 			print e.read()
 			sys.exit(1)
 
-		data = json.loads(data)
-		
-		for tweet in data:
-			print tweet['user']['screen_name'], ': \t', tweet['text']
-			print
+		self.print_tweets(data)
 
 			
-		
+	def print_tweets(self, tweets):
+		tweets = json.loads(tweets)
+		for tweet in tweets:
+			print tweet['user']['screen_name'], ': \t', tweet['text']
+			print
 
 	def help(self):
 		# Print help information

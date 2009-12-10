@@ -66,7 +66,7 @@ class CLITweet:
 			number_of_tweets = str(10)
 
 		try:
-			data = urllib2.urlopen('http://twitter.com/statuses/friends_timeline.json?count=' \
+			data = urllib2.urlopen('http://twitter.com/statuses/home_timeline.json?count=' \
 			+ number_of_tweets).read()
 
 		except urllib2.HTTPError, e:

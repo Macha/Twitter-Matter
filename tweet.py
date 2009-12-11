@@ -82,11 +82,16 @@ class TwitterMatter:
 		"""
 		self.get_protected_timeline('home_timeline')
 
-	def get_protected_timeline(self, timeline):
-		"""		
-		Gets a protected timeline of tweets.
+	def mine(self):
 		"""
-		self.setup()
+		Gets the users latest tweets
+		"""
+		self.get_protected_timeline('user_timeline')
+
+	def get_timeline(self, timeline):
+		"""
+		Gets and prints a timeline
+		"""
 		if len(sys.argv) == 3:
 			number_of_tweets = str(sys.argv[2])
 		else:
@@ -102,6 +107,13 @@ class TwitterMatter:
 			sys.exit(1)
 
 		self.print_tweets(data)
+
+	def get_protected_timeline(self, timeline):
+		"""		
+		Gets and prints protected timeline of tweets.
+		"""
+		self.setup()
+		self.get_timeline(timeline)
 
 	def print_tweets(self, tweets):
 		"""

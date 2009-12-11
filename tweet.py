@@ -5,7 +5,7 @@ import sys
 import urllib
 import urllib2
 
-class CLITweet:
+class TwitterMatter:
 	
 	username = 'USERNAME'
 	password = 'PASSWORD'
@@ -26,6 +26,7 @@ class CLITweet:
 					func()
 				except IndexError:
 					print "Missing argument for command '" + sys.argv[1] + "' check help"
+					self.help()
 
 	def setup(self):
 		# Prepares API call that needs authentication
@@ -58,26 +59,14 @@ class CLITweet:
 
 	def mentions(self):
 		# Gets latest @replies.
-		self.setup()
-		if len(sys.argv) == 3:
-			number_of_tweets = str(sys.argv[2])
-		else:
-			number_of_tweets = str(10)
-		
-		
-		try:
-			data = urllib2.urlopen('http://twitter.com/statuses/mentions.json?count=' \
-			+ number_of_tweets).read()
-
-		except urllib2.HTTPError, e:
-			print e.code
-			print e.read()
-			sys.exit(1)
-
-		self.print_tweets(data)
+		self.get_protected_timeline('mentions')
 
 	def friends(self):
 		# Get latest tweets from friends
+		self.get_protected_timeline('home_timeline')
+
+	def get_protected_timeline(self, timeline):
+		# Gets a protected timeline of tweets.
 		self.setup()
 		if len(sys.argv) == 3:
 			number_of_tweets = str(sys.argv[2])
@@ -85,8 +74,8 @@ class CLITweet:
 			number_of_tweets = str(10)
 
 		try:
-			data = urllib2.urlopen('http://twitter.com/statuses/home_timeline.json?count=' \
-			+ number_of_tweets).read()
+			data = urllib2.urlopen('http://twitter.com/statuses/' \
+			+ timeline + '.json?count=' + number_of_tweets).read()
 
 		except urllib2.HTTPError, e:
 			print e.code
@@ -95,7 +84,6 @@ class CLITweet:
 
 		self.print_tweets(data)
 
-			
 	def print_tweets(self, tweets):
 		# Prints a group of tweets fetched from another function.
 		tweets = json.loads(tweets)
@@ -109,8 +97,8 @@ class CLITweet:
 		print "Usage:"
 		print "\t tweet <tweet> - Sends a tweet"
 		print "\t friends [<num>] - Gets latest <num> tweets from friends"
-		print "\t mentions [<num>] - Gets latest <num> @replies
+		print "\t mentions [<num>] - Gets latest <num> @replies"
 		print "\t help - Prints help information"
 		print
 
-CLITweet().run()
+TwitterMatter().run()

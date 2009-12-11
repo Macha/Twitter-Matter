@@ -60,7 +60,12 @@ class TwitterMatter:
 		})
 		try:
 			data = urllib2.urlopen('http://twitter.com/statuses/update.json', params).read()
-			print data
+			data = json.loads(data)
+			print
+			print "Tweet Sent"
+			print
+			print data['user']['screen_name'] + ":\t", data['text']
+			print
 		except urllib2.HTTPError, e:
 			print e.code
 			print e.read()

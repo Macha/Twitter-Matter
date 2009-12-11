@@ -12,6 +12,10 @@ class TwitterMatter:
 
 
 	def run(self):
+		"""
+		Calls a method of the same name of the first argument passed to the 
+		program.
+		"""
 		try:
 			func = getattr(self, sys.argv[1])
 		# Command not found
@@ -29,7 +33,9 @@ class TwitterMatter:
 					self.help()
 
 	def setup(self):
-		# Prepares API call that needs authentication
+		"""
+		Prepares API call that needs authentication
+		"""
 		password_manager = urllib2.HTTPPasswordMgrWithDefaultRealm()
 		password_manager.add_password(
 			None, 'https://twitter.com/', self.username, self.password
@@ -40,7 +46,9 @@ class TwitterMatter:
 				
 
 	def tweet(self):
-		# Tweet to API
+		"""
+		Tweets to API
+		"""
 		self.setup()
 		tweet = ' '.join(sys.argv[2:])
 		if len(tweet) > 140:
@@ -58,15 +66,21 @@ class TwitterMatter:
 			print e.read()
 
 	def mentions(self):
-		# Gets latest @replies.
+		"""
+		Gets latest @replies
+		"""
 		self.get_protected_timeline('mentions')
 
 	def friends(self):
-		# Get latest tweets from friends
+		"""
+		Get latest tweets from friends
+		"""
 		self.get_protected_timeline('home_timeline')
 
 	def get_protected_timeline(self, timeline):
-		# Gets a protected timeline of tweets.
+		"""		
+		Gets a protected timeline of tweets.
+		"""
 		self.setup()
 		if len(sys.argv) == 3:
 			number_of_tweets = str(sys.argv[2])
@@ -85,14 +99,18 @@ class TwitterMatter:
 		self.print_tweets(data)
 
 	def print_tweets(self, tweets):
-		# Prints a group of tweets fetched from another function.
+		"""
+		Prints a group of tweets fetched from another function.
+		"""
 		tweets = json.loads(tweets)
 		for tweet in tweets:
 			print tweet['user']['screen_name'], ': \t', tweet['text']
 			print
 
 	def help(self):
-		# Print help information
+		"""
+		Prints help information
+		"""
 		print
 		print "Usage:"
 		print "\t tweet <tweet> - Sends a tweet"

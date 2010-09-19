@@ -1,1 +1,3 @@
 A simple CLI Twitter client written in Python
+
+At some point I may add OAuth support to get it working again.
